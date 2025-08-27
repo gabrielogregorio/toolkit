@@ -1,0 +1,50 @@
+name: deploy 
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    timeout-minutes: 10
+    needs: []
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install packages
+        run: yarn
+
+      - name: get current version
+        id: get-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: build App
+        run: |
+          echo "export const envs = { VITE_BASE_URL: '/toolkit', VITE_ENVIRONMENT: 'production', 'VERSION': '${{ steps.get-version.outputs.version }}' };" > src/core/env.ts
+          yarn build
+
+      - name: Deploy with gh-pages
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/gabrielogregorio/toolkit.git
+
+          echo "copy index to 404 page"
+          cp dist/index.html dist/404.html
+
+          npx gh-pages -d dist --add -u "github-actions-bot <support+actions@github.com>"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
