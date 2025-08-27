@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+ .timer {
+     background: conic-gradient( oklch(0.7 0.08 217) 100%, #444 0 );
+     -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2vw), black 0);
+     mask: radial-gradient(farthest-side, transparent calc(100% - 2vw), black 0);
+}
