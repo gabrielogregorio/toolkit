@@ -5,3 +5,17 @@
      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2vw), black 0);
      mask: radial-gradient(farthest-side, transparent calc(100% - 2vw), black 0);
 }
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@theme {
+    --animate-fade-in: fade-in 0.3s ease-out;
+}

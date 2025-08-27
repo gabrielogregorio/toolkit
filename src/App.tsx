@@ -185,7 +185,7 @@ export function App() {
     <div>
       <div
         className={tailwindMerge(
-          "flex items-center justify-center pt-[5vw]",
+          "flex items-center justify-center pt-[5vw] animate-fade-in",
           styleCronometerIsOn
         )}
       >
@@ -230,7 +230,7 @@ export function App() {
         </div>
       </div>
 
-      <div className={tailwindMerge(styleHomeIsOn)}>
+      <div className={tailwindMerge("animate-fade-in", styleHomeIsOn)}>
         <label
           htmlFor="to"
           className="flex items-center justify-center flex-col pt-[5vw] px-[3vw]"

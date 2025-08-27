@@ -4,7 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
+
       },
+      
     },
+
   },
+  
 } satisfies Config
